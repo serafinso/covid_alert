@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://db:5432/${POSTGRES_DB}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    hikari:
+      connectionTimeout: 30000
+
+app:
+  version: 1.0.0
+
+keycloak:
+  realm: covid-alert
+  auth-server-url: http://localhost:8080/auth
+  ssl-required: external
+  resource: my-react-client
+  public-client: true
+
+server:
+  port: 8000

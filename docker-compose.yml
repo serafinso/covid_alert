@@ -1,0 +1,56 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+  keycloak:
+    image: jboss/keycloak:4.0.0.Final
+    environment:
+      - DB_VENDOR=postgres
+      - DB_ADDR=db
+      - DB_PORT=5432
+      - DB_DATABASE=${POSTGRES_DB}
+      - DB_USER=${POSTGRES_USER}
+      - DB_SCHEMA=public
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - KEYCLOAK_IMPORT=./realm-export.json
+      - KEYCLOAK_FRONTEND_URL=http://localhost:8080/auth
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+
+  gradle-continuous-builder:
+    image: gradle:6.7.0-jdk11
+    volumes:
+      - gradle-build:/home/gradle/project/.gradle
+      - ./:/home/gradle/project:cached
+    working_dir: /home/gradle/project
+    command: ["gradle","build","--continuous"]
+
+  gradle-execute:
+    image: gradle:6.7.0-jdk11
+    ports:
+      - "8000:8000"
+    environment:
+      username: postgres
+      password: Welcome
+      url: db:5432/postgres
+    volumes:
+      - gradle-execution:/home/gradle/project/.gradle
+      - ./:/home/gradle/project:cached
+    working_dir: /home/gradle/project
+    command: ["gradle","bootRun","-s"]
+
+volumes:
+  gradle-execution:
+  gradle-build:

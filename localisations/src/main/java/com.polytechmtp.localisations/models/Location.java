@@ -1,4 +1,4 @@
-package demo.localisations.models;
+package com.polytechmtp.localisations.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

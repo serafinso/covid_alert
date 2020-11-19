@@ -1,8 +1,8 @@
-package demo.localisations.controllers;
+package com.polytechmtp.localisations.controllers;
 
 
-import demo.localisations.models.Location;
-import demo.localisations.repositories.LocationRepository;
+import com.polytechmtp.localisations.models.Location;
+import com.polytechmtp.localisations.repositories.LocationRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,7 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/locations")
+@RequestMapping("/locations")
 public class LocationsController {
 
     @Autowired

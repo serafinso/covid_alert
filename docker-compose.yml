@@ -37,20 +37,50 @@ services:
     working_dir: /home/gradle/project
     command: ["gradle","build","--continuous"]
 
-  gradle-execute:
+  gradle-execute-keycloak:
     image: gradle:6.7.0-jdk11
-    ports:
-      - "8000:8000"
     environment:
       username: postgres
       password: Welcome
       url: db:5432/postgres
+    ports:
+      - "8000:8000"
     volumes:
-      - gradle-execution:/home/gradle/project/.gradle
+      - gradle-execution-keycloak:/home/gradle/project/.gradle
       - ./:/home/gradle/project:cached
     working_dir: /home/gradle/project
-    command: ["gradle","bootRun","-s"]
+    command: bash -c "gradle keycloak:bootRun -s"
+
+  gradle-execute-localisations:
+    image: gradle:6.7.0-jdk11
+    environment:
+      username: postgres
+      password: Welcome
+      url: db:5432/postgres
+    ports:
+      - "8081:8081"
+    volumes:
+      - gradle-execution-localisations:/home/gradle/project/.gradle
+      - ./:/home/gradle/project:cached
+    working_dir: /home/gradle/project
+    command: bash -c "gradle localisations:bootRun -s"
+
+  gradle-execute-contacts:
+    image: gradle:6.7.0-jdk11
+    environment:
+      username: postgres
+      password: Welcome
+      url: db:5432/postgres
+    ports:
+      - "8082:8082"
+    volumes:
+      - gradle-execution-contacts:/home/gradle/project/.gradle
+      - ./:/home/gradle/project:cached
+    working_dir: /home/gradle/project
+    command: bash -c "gradle contacts:bootRun -s"
 
 volumes:
-  gradle-execution:
+  gradle-execution-keycloak:
+  gradle-execution-localisations:
+  gradle-execution-contacts:
   gradle-build:

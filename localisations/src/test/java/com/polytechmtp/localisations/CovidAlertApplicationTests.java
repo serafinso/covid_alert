@@ -1,4 +1,4 @@
-package com.polytechmtp.covidalert;
+package com.polytechmtp.localisations;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

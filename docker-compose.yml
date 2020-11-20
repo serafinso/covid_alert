@@ -30,11 +30,12 @@ services:
       - ./config/keycloak/realm_import:/realm_import
 
   frontend:
-    build: ./stop_covid_front
-    command: [ "npm", "start" ]
+    build:
+      context: ./stop_covid_front
+      dockerfile: ./Dockerfile
     volumes:
       - ./stop_covid_front:/app/frontend
-      - node-modules:/app/frontend/node_modules
+      - /app/frontend/node_modules
     ports:
       - "3000:3000"
 
@@ -72,5 +73,4 @@ services:
 
 volumes:
   gradle-build:
-  node-modules:
 

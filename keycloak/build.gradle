@@ -38,6 +38,7 @@ dependencies {
 
 	//compile group: 'org.keycloak', name: 'keycloak-spring-boot-starter', version: '9.0.2'
 	implementation 'org.keycloak:keycloak-spring-boot-starter'
+	implementation 'org.keycloak:keycloak-themes:11.0.3'
 }
 
 dependencyManagement {

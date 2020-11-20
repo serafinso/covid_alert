@@ -2,32 +2,65 @@ version: '3'
 services:
   db:
     image: postgres
-    volumes:
-      - ./create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
     ports:
       - "5432:5432"
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
   keycloak:
     image: jboss/keycloak:4.0.0.Final
     environment:
-      - DB_VENDOR=postgres
-      - DB_ADDR=db
-      - DB_PORT=5432
-      - DB_DATABASE=${POSTGRES_DB}
-      - DB_USER=${POSTGRES_USER}
-      - DB_SCHEMA=public
-      - DB_PASSWORD=${POSTGRES_PASSWORD}
-      - KEYCLOAK_USER=admin
-      - KEYCLOAK_PASSWORD=admin
-      - KEYCLOAK_IMPORT=./realm-export.json
-      - KEYCLOAK_FRONTEND_URL=http://localhost:8080/auth
+      DB_VENDOR: postgres
+      DB_ADDR: db
+      DB_PORT: 5432
+      DB_DATABASE: ${POSTGRES_DB}
+      DB_USER: ${POSTGRES_USER}
+      DB_SCHEMA: public
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin
+      KEYCLOAK_IMPORT: /realm_import/realm-export.json
     ports:
       - "8080:8080"
     depends_on:
       - db
+    volumes:
+      - ./config/keycloak/realm_import:/realm_import
+
+  frontend:
+    build: ./stop_covid_front
+    command: [ "npm", "start" ]
+    volumes:
+      - ./stop_covid_front:/app/frontend
+      - node-modules:/app/frontend/node_modules
+    ports:
+      - "3000:3000"
+
+  localisations-service:
+    build: localisations/
+    image: localisations
+    depends_on:
+      - db
+    ports:
+      - "8081:8081"
+
+  keycloak-service:
+    build: keycloak/
+    image: keycloak
+    depends_on:
+      - db
+    ports:
+      - "8000:8000"
+
+  contacts-service:
+    build: contacts/
+    image: contacts
+    depends_on:
+      - db
+    ports:
+      - "8082:8082"
 
   gradle-continuous-builder:
     image: gradle:6.7.0-jdk11
@@ -35,52 +68,9 @@ services:
       - gradle-build:/home/gradle/project/.gradle
       - ./:/home/gradle/project:cached
     working_dir: /home/gradle/project
-    command: ["gradle","build","--continuous"]
-
-  gradle-execute-keycloak:
-    image: gradle:6.7.0-jdk11
-    environment:
-      username: postgres
-      password: Welcome
-      url: db:5432/postgres
-    ports:
-      - "8000:8000"
-    volumes:
-      - gradle-execution-keycloak:/home/gradle/project/.gradle
-      - ./:/home/gradle/project:cached
-    working_dir: /home/gradle/project
-    command: bash -c "gradle keycloak:bootRun -s"
-
-  gradle-execute-localisations:
-    image: gradle:6.7.0-jdk11
-    environment:
-      username: postgres
-      password: Welcome
-      url: db:5432/postgres
-    ports:
-      - "8081:8081"
-    volumes:
-      - gradle-execution-localisations:/home/gradle/project/.gradle
-      - ./:/home/gradle/project:cached
-    working_dir: /home/gradle/project
-    command: bash -c "gradle localisations:bootRun -s"
-
-  gradle-execute-contacts:
-    image: gradle:6.7.0-jdk11
-    environment:
-      username: postgres
-      password: Welcome
-      url: db:5432/postgres
-    ports:
-      - "8082:8082"
-    volumes:
-      - gradle-execution-contacts:/home/gradle/project/.gradle
-      - ./:/home/gradle/project:cached
-    working_dir: /home/gradle/project
-    command: bash -c "gradle contacts:bootRun -s"
+    command: [ "gradle","build","--continuous" ]
 
 volumes:
-  gradle-execution-keycloak:
-  gradle-execution-localisations:
-  gradle-execution-contacts:
   gradle-build:
+  node-modules:
+

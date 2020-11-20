@@ -1,0 +1,65 @@
+.logo {
+    padding-bottom: 10px;
+    margin-top: 0px;
+}
+
+.logo img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.myHealthOk {
+    background-color: #8abfa1;
+    opacity: 100%;
+    padding: 20px 10px 10px 10px;
+    border-radius: 10px;
+}
+
+.myHealthContact {
+    background-color: #f4b340;
+    opacity: 100%;
+    padding: 20px 10px 10px 10px;
+    border-radius: 10px;
+}
+
+.myHealthPositive {
+    background-color: #f95046;
+    opacity: 100%;
+    padding: 20px 10px 10px 10px;
+    border-radius: 10px;
+}
+
+.declareMe {
+    padding-bottom: 10px;
+    margin-top: 30px;
+}
+
+.declareMe img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+
+.declareMeTitle {
+    font-size: 20px;
+}
+
+.declareMeText {
+    font-size: 14px;
+}
+
+.declareMeButton {
+    display: block;
+    font-size: 17px;
+    color: white;
+    background-color: #167bff;
+    padding-left: 40px;
+    padding-right: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+}

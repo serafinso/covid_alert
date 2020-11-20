@@ -9,3 +9,5 @@ build
 .env
 
 .gitattributes
+
+/*/node_modules

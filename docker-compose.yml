@@ -41,9 +41,9 @@ services:
     ports:
       - "3000:3000"
 
-  localisations-service:
-    build: localisations/
-    image: localisations
+  locations-service:
+    build: locations/
+    image: locations
     depends_on:
       - db
     ports:

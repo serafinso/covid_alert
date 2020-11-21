@@ -8,6 +8,6 @@
  */
 
 rootProject.name = 'covid_alert'
-include('keycloak','localisations')
+include('keycloak','locations')
 include 'contacts'
 

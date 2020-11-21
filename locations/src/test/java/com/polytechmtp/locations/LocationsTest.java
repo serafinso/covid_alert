@@ -1,10 +1,10 @@
-package com.polytechmtp.localisations;
+package com.polytechmtp.locations;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CovidAlertApplicationTests {
+class LocationsTest {
 
 	@Test
 	void contextLoads() {

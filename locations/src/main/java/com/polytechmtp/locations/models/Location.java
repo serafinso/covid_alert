@@ -1,12 +1,9 @@
-package com.polytechmtp.localisations.models;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+package com.polytechmtp.locations.models;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
-@Entity(name="locations")
+@Entity(name= "locations")
 @Access(AccessType.FIELD)
 public class Location {
 

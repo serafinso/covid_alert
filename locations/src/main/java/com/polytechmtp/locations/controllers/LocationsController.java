@@ -1,8 +1,8 @@
-package com.polytechmtp.localisations.controllers;
+package com.polytechmtp.locations.controllers;
 
 
-import com.polytechmtp.localisations.models.Location;
-import com.polytechmtp.localisations.repositories.LocationRepository;
+import com.polytechmtp.locations.models.Location;
+import com.polytechmtp.locations.repositories.LocationRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,12 +20,16 @@ public class LocationsController {
 
     @GetMapping
     public List<Location> list(){
-        return locationRepository.findAll();
+        System.out.println("KIKOUUUUUUU");
+        List<Location> all = locationRepository.findAll();
+        System.out.println("LOCATIONNNNNNNNNNNN ALL"+ all);
+        return all;
     }
 
     @GetMapping
     @RequestMapping("{id}")
     public Location get(@PathVariable Long id) {
+        System.out.println("LOCATIONNNNNNNNNNNN "+ id);
         if (locationRepository.findById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Location with ID "+id+" not found");
         }

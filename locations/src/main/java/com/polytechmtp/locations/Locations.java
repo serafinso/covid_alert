@@ -1,4 +1,4 @@
-package com.polytechmtp.localisations;
+package com.polytechmtp.locations;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,10 +7,10 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-public class Localisations {
+public class Locations {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Localisations.class, args);
+		SpringApplication.run(Locations.class, args);
 	}
 
 	@Bean

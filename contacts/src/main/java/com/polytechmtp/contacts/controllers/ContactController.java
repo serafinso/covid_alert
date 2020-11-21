@@ -1,7 +1,7 @@
-package com.polytechmtp.contact.controllers;
+package com.polytechmtp.contacts.controllers;
 
-import com.polytechmtp.contact.models.Contact;
-import com.polytechmtp.contact.repositories.ContactRepository;
+import com.polytechmtp.contacts.models.Contact;
+import com.polytechmtp.contacts.repositories.ContactRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

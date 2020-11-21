@@ -1,4 +1,4 @@
-package com.polytechmtp.contact;
+package com.polytechmtp.contacts;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

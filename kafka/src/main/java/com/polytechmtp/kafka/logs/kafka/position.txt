@@ -1,1 +1,0 @@
-userId,latitude,longitude,date

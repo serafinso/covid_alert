@@ -1,14 +1,14 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useKeycloak } from "@react-keycloak/web";
 import { connect } from "react-redux";
 import "./css/Home.css";
 
 const Home = (props) => {
   const { keycloak } = useKeycloak();
+  const [userState, setUserState] = useState("Ok");
   useEffect(() => {}, []);
 
   //tmp variable waiting for positive parameter
-  const userState = "Ok";
   //const userState = "Contact"
   //const userState = "Positive"
 
@@ -47,7 +47,7 @@ const Home = (props) => {
             </div>
           </div>
 
-          <button className="btn declareMeButton">Me déclarer</button>
+          <button className="btn declareMeButton" onClick={()=>setUserState("Positive")}>Me déclarer positif au Covid-19</button>
         </div>
       ) : userState === "Contact" ? (
         <div>
@@ -70,7 +70,8 @@ const Home = (props) => {
             </div>
           </div>
 
-          <button className="btn declareMeButton">Me déclarer</button>
+          <button className="btn declareMeButton" onClick={()=>setUserState("Positive")}>Me déclarer positif au Covid-19</button>
+          <button className="btn declareMeButton" onClick={()=>setUserState("Ok")}>Me déclarer négatif au Covid-19</button>
         </div>
       ) : (
         <div>
@@ -92,11 +93,12 @@ const Home = (props) => {
             </div>
           </div>
 
-          <button className="btn declareMeButton">Me déclarer négatif</button>
+          <button className="btn declareMeButton" onClick={()=>setUserState("Ok")}>Me déclarer négatif au Covid-19</button>
         </div>
       )}
     </div>
   );
+  
 };
 
 const mapStateToProps = (state) => {

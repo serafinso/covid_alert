@@ -1,4 +1,4 @@
-package com.polytechmtp.contact.models;
+package com.polytechmtp.contacts.models;
 
 import javax.persistence.*;
 import java.util.Date;

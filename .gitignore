@@ -11,3 +11,5 @@ build
 .gitattributes
 
 /*/node_modules
+
+*.log

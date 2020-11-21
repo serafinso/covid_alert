@@ -67,9 +67,30 @@ services:
       - "8082:8082"
 
   kafka-service:
+    build: kafka/
+    image: kafka
+    depends_on:
+      - kafka
+    links:
+      - kafka:kafka
+    ports :
+      - "8083:8083"
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    hostname: zookeeper
+    container_name: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+
+  kafka:
       image: confluentinc/cp-kafka:latest
-      hostname: kafka-service
-      container_name: kafka-service
+      hostname: kafka
+      container_name: kafka
       depends_on:
         - zookeeper
       ports:
@@ -81,22 +102,6 @@ services:
         KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
         KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
         KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      volumes:
-        - ./logs/data:/var/lib/kafka/data
-
-
-  zookeeper:
-    image: confluentinc/cp-zookeeper:latest
-    hostname: zookeeper
-    container_name: zookeeper
-    ports:
-      - "2181:2181"
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    volumes:
-      - ./kafka/src/main/java/com/polytechmtp/kafka/zoo/data:/var/lib/zookeeper/data
-      - ./kafka/src/main/java/com/polytechmtp/kafka/zoo/log:/var/lib/zookeeper/log
 
   #gradle-continuous-builder:
     #image: gradle:6.7.0-jdk11

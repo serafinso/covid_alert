@@ -20,10 +20,7 @@ public class LocationsController {
 
     @GetMapping
     public List<Location> list(){
-        System.out.println("KIKOUUUUUUU");
-        List<Location> all = locationRepository.findAll();
-        System.out.println("LOCATIONNNNNNNNNNNN ALL"+ all);
-        return all;
+        return locationRepository.findAll();
     }
 
     @GetMapping

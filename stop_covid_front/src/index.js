@@ -16,7 +16,6 @@ ReactDOM.render(
   <React.StrictMode>
     <ReactKeycloakProvider
       authClient={keycloak.instance}
-      initOptions={keycloak.initConfig}
     >
       <Provider store={store}>
         <App />

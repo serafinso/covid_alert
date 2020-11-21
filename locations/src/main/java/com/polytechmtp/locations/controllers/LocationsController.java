@@ -20,16 +20,13 @@ public class LocationsController {
 
     @GetMapping
     public List<Location> list(){
-        System.out.println("KIKOUUUUUUU");
         List<Location> all = locationRepository.findAll();
-        System.out.println("LOCATIONNNNNNNNNNNN ALL"+ all);
         return all;
     }
 
     @GetMapping
     @RequestMapping("{id}")
     public Location get(@PathVariable Long id) {
-        System.out.println("LOCATIONNNNNNNNNNNN "+ id);
         if (locationRepository.findById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Location with ID "+id+" not found");
         }

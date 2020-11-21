@@ -14,13 +14,9 @@ import Welcome from "./View/Welcome";
 import { PrivateRoute } from "./utilities/PrivateRoute";
 import { useKeycloak } from "@react-keycloak/web";
 
-const App = (props) => {
+const App = () => {
   const { keycloak } = useKeycloak();
-  if (!keycloak.authenticated) {
-    console.log(keycloak);
-    return <div>Loading...</div>;
-  } else {
-    return (
+  return (
       <Router history={history}>
         <div className="App">
           <Navbar />
@@ -32,28 +28,32 @@ const App = (props) => {
                     <div className="auth-wrapper">
                       <div className="auth-inner">
                         <Switch>
-                          <Route exact path="/">
-                            <Home />
-                          </Route>
-                          <Route exact path="/">
-                            <HomeGuest />
-                          </Route>
+                          {keycloak.authenticated && (
+                              <Route exact path="/">
+                                <Home />
+                              </Route>
+                          )}
+                          {!keycloak.authenticated && (
+                              <Route exact path="/">
+                                <HomeGuest />
+                              </Route>
+                          )}
                           <PrivateRoute
-                            exact
-                            roles={["user"]}
-                            path="/users"
-                            component={Welcome}
+                              exact
+                              roles={["user"]}
+                              path="/users"
+                              component={Welcome}
                           />
                           <PrivateRoute
-                            exact
-                            roles={["user"]}
-                            path="/"
-                            component={Welcome}
+                              exact
+                              roles={["user"]}
+                              path="/"
+                              component={Welcome}
                           />
                           <PrivateRoute
-                            roles={["admin"]}
-                            path="/secured"
-                            component={Secured}
+                              roles={["admin"]}
+                              path="/secured"
+                              component={Secured}
                           />
                         </Switch>
                       </div>
@@ -70,8 +70,7 @@ const App = (props) => {
           </div>
         </div>
       </Router>
-    );
-  }
+  );
 };
 
 export default App;

@@ -26,7 +26,6 @@ public class LocationsController {
     @GetMapping
     @RequestMapping("{id}")
     public Location get(@PathVariable Long id) {
-        System.out.println("LOCATIONNNNNNNNNNNN "+ id);
         if (locationRepository.findById(id).isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Location with ID "+id+" not found");
         }

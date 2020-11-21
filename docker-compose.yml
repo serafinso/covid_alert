@@ -30,6 +30,7 @@ services:
       - db
     volumes:
       - ./config/keycloak/realm_import:/opt/jboss/keycloak/realm_import
+      - ./config/keycloak/themes/my-theme/:/opt/jboss/keycloak/themes/my-theme/
 
   frontend:
     build:

@@ -1,18 +1,51 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useKeycloak } from "@react-keycloak/web";
 import { connect } from "react-redux";
 import "./css/Home.css";
+import {sendLocation} from '../Services/UserAPI'
 
 const Home = (props) => {
   const { keycloak } = useKeycloak();
-  useEffect(() => {}, []);
-
+    const [position, setPosition] = useState({latitude:0 , longitude:0});
+  
+    useEffect(() => {
+        
+        setInterval(() => {
+            if (keycloak.authenticated) {
+                getLocation().then(() => {
+                    if (position.latitude !== 0 && position.longitude !== 0) {
+                        sendLocation(keycloak.tokenParsed.username,position.latitude,position.longitude).then(() => {
+                            console.log("Position sent : " +
+                                "{longitude : " + position.longitude + " , " +
+                                "latitude : " + position.latitude + ' }'
+                            )
+                        })
+                    }
+                })
+            }
+        }, 5000 )
+    })
+    
+    
+    function showPosition(position) {
+        setPosition({latitude: position.coords.latitude, longitude:position.coords.longitude})
+    }
+    
+    async function getLocation () {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(showPosition)
+        }
+        else {
+            alert("Location is not available in this browser !!")
+        }
+    }
+    
   //tmp variable waiting for positive parameter
   const userState = "Ok";
   //const userState = "Contact"
   //const userState = "Positive"
 
-  useEffect(() => {}, []);
+
 
   return (
     <div>

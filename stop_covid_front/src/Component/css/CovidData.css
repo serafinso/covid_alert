@@ -1,11 +1,22 @@
+.dataContainer {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
 .text {
     color: white;
 }
 
-.graphCovid {
-    width:100%;
-    height: 500px;
-    overflow: hidden;
+.title {
+    text-decoration: underline;
+}
 
+.text h6 {
+    text-align: left;
+}
+
+.infos img {
+    border-radius: 5px;
+    border-color: #1b4d6d;
 }
 

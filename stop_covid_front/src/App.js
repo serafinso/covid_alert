@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from 'react';
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { Router, Switch, Route } from "react-router-dom";
@@ -15,6 +15,9 @@ import { PrivateRoute } from "./utilities/PrivateRoute";
 import { useKeycloak } from "@react-keycloak/web";
 
 const App = () => {
+  
+  
+  
   const { keycloak } = useKeycloak();
   return (
       <Router history={history}>

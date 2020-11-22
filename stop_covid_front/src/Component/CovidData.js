@@ -2,6 +2,9 @@ import React, { Component, useEffect, useState } from "react";
 import "./css/CovidData.css";
 import { getNumbers } from "../Services/CovidAPI";
 import { Spinner } from "react-bootstrap";
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 const CovidData = () => {
   const [dataCovid, setDataCovid] = useState({
@@ -27,24 +30,37 @@ const CovidData = () => {
 
   return (
     <div>
-      <h1 className={"text"}>En France : </h1>
+      <h1 className={"text title"} >En France : </h1>
       {dataCovid ? (
-        <div className={"text"}>
-          <h6>Nombre de cas : {dataCovid.casConfirmes}</h6>
-          <h6>Hospitalisés hier : {dataCovid.nouvellesHospitalisations}</h6>
-          <h6>Admis en réanimation hier : {dataCovid.nouvellesReanimations}</h6>
-          <h6>Nombre de morts : {dataCovid.deces}</h6>
-
-          <div className={"graphCovid"}>
-            <iframe
-              width={"100%"}
-              height={"100%"}
-              scrolling={"no"}
-              src="https://infogram.com/coronavirus-france-english-1h0r6r5995mw4ek"
-              allowFullScreen={true}
-            ></iframe>
+          <div>
+          <Container className={"dataContainer"}>
+            <Row>
+              <Col xs={6}>
+                <div className={"text"}>
+                  <h6>Nombre de cas : </h6>
+                  <h6>Hospitalisés hier : </h6>
+                  <h6>Admis en réanimation hier : </h6>
+                  <h6>Nombre de morts : </h6>
+                </div>
+              </Col>
+              <Col xs={6}>
+                <div className={"text"}>
+                  <h6>{dataCovid.casConfirmes} personnes</h6>
+                  <h6>{dataCovid.nouvellesHospitalisations} personnes</h6>
+                  <h6>{dataCovid.nouvellesReanimations} personnes</h6>
+                  <h6>{dataCovid.deces} personnes</h6>
+                </div>
+              </Col>
+            </Row>
+          </Container>
+            <div className={"infos"}>
+              <img
+                  src={process.env.PUBLIC_URL + "/img/consignes.png"}
+                  width={"100%"}
+              />
+            </div>
           </div>
-        </div>
+        
       ) : (
         <Spinner animation="border" variant="primary" size="sm" />
       )}

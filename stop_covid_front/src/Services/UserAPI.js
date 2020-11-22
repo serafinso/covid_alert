@@ -132,3 +132,24 @@ export function resetPassword(user) {
     .then((response) => response.json())
     .catch((error) => console.log(error));
 }
+
+
+
+
+/* This function is to send location to Kafka */
+
+export function sendLocation(userId, latitude, longitude) {
+  const url = "http://localhost:8000";
+  const data = JSON.stringify(userId,latitude,longitude);
+  console.log(data)
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: data,
+  })
+      .then((response) => response.json())
+      .catch((error) => console.log(error));
+}

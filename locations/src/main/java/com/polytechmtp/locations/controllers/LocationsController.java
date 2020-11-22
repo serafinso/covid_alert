@@ -1,65 +1,48 @@
 package com.polytechmtp.locations.controllers;
 
-
 import com.polytechmtp.locations.models.Location;
 import com.polytechmtp.locations.repositories.LocationRepository;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/locations")
 public class LocationsController {
-
     @Autowired
     private LocationRepository locationRepository ;
 
     @GetMapping
+    @RequestMapping(method = RequestMethod.GET)
     public List<Location> list(){
-        List<Location> all = locationRepository.findAll();
-        return all;
+        return locationRepository.findAll();
     }
 
     @GetMapping
-    @RequestMapping("{id}")
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public Location get(@PathVariable Long id) {
-        if (locationRepository.findById(id).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Location with ID "+id+" not found");
-        }
         return locationRepository.getOne(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Location create(@RequestBody final Location location) {
-        return locationRepository.saveAndFlush(location);
+    public Location create(@RequestBody final Location user) {
+        return locationRepository.saveAndFlush(user);
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.DELETE )
+    @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
     public void delete ( @PathVariable Long id){
-        if (locationRepository.findById(id).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Location with ID "+id+" not found");
-        }
         // TODO: Toujours verifier s’il faut les enregistrements enfants
         locationRepository.deleteById(id);
     }
 
-    @PutMapping
-    @RequestMapping(value="{id}", method=RequestMethod.PUT)
-    public Location update (@PathVariable Long id , @RequestBody Location location) {
-
+    @RequestMapping(value="{id}", method = RequestMethod.PUT)
+    public Location update (@PathVariable Long id ) {
         // TODO: Ajouter ici une validation si tous les champs ont ete passes
-
-        if (locationRepository.findById(id).isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Location with ID "+id+" not found");
-        }
         // TODO: Sinon, retourner une erreur 400 (Bad Payload)
-        Location existingLocation = locationRepository.getOne(id);
-        BeanUtils.copyProperties(location,existingLocation ,"location_id");
-        return locationRepository.saveAndFlush(existingLocation);
+        Location existingUser = locationRepository.getOne(id);
+        return locationRepository.saveAndFlush(existingUser);
     }
 }

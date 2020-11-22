@@ -8,6 +8,4 @@
  */
 
 rootProject.name = 'covid_alert'
-include('keycloak','locations')
-include 'contacts'
-
+include('keycloak','locations', 'contacts', 'kafka')

@@ -6,10 +6,10 @@ import {sendLocation} from '../Services/UserAPI'
 
 const Home = (props) => {
   const { keycloak } = useKeycloak();
+
     const [position, setPosition] = useState({latitude:0 , longitude:0});
   
     useEffect(() => {
-        
         setInterval(() => {
             if (keycloak.authenticated) {
                 getLocation().then(() => {
@@ -40,8 +40,8 @@ const Home = (props) => {
         }
     }
     
+
   //tmp variable waiting for positive parameter
-  const userState = "Ok";
   //const userState = "Contact"
   //const userState = "Positive"
 
@@ -80,7 +80,7 @@ const Home = (props) => {
             </div>
           </div>
 
-          <button className="btn declareMeButton">Me déclarer</button>
+          <button className="btn declareMeButton" onClick={()=>setUserState("Positive")}>Me déclarer positif au Covid-19</button>
         </div>
       ) : userState === "Contact" ? (
         <div>
@@ -103,7 +103,8 @@ const Home = (props) => {
             </div>
           </div>
 
-          <button className="btn declareMeButton">Me déclarer</button>
+          <button className="btn declareMeButton" onClick={()=>setUserState("Positive")}>Me déclarer positif au Covid-19</button>
+          <button className="btn declareMeButton" onClick={()=>setUserState("Ok")}>Me déclarer négatif au Covid-19</button>
         </div>
       ) : (
         <div>
@@ -125,11 +126,12 @@ const Home = (props) => {
             </div>
           </div>
 
-          <button className="btn declareMeButton">Me déclarer négatif</button>
+          <button className="btn declareMeButton" onClick={()=>setUserState("Ok")}>Me déclarer négatif au Covid-19</button>
         </div>
       )}
     </div>
   );
+  
 };
 
 const mapStateToProps = (state) => {

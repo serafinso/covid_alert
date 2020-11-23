@@ -1,4 +1,4 @@
-package com.polytechmtp.kafka;
+package com.polytechmtp.kafka.kafka;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;

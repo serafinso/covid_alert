@@ -15,20 +15,6 @@ const Navbar = () => {
           </Link>
           <div className="collapse navbar-collapse" id="navbarTogglerDemo02">
             <ul className="navbar-nav ml-auto">
-              {AuthorizedFunction(["user"]) && (
-                  <li>
-                    <Button variant="link">
-                      <Link to="/users">All users</Link>
-                    </Button>
-                  </li>
-              )}
-              {AuthorizedFunction(["user"]) && (
-                  <li>
-                    <Button variant="link">
-                      <Link to="/">public component</Link>
-                    </Button>
-                  </li>
-              )}
               {AuthorizedFunction(["admin"]) && (
                   <li>
                     <Button variant="link">

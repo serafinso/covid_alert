@@ -10,7 +10,6 @@ import Navbar from "./Component/Navbar";
 import HomeGuest from "./View/HomeGuest";
 import CovidData from "./Component/CovidData";
 import Secured from "./View/Secured";
-import Welcome from "./View/Welcome";
 import { PrivateRoute } from "./utilities/PrivateRoute";
 import { useKeycloak } from "@react-keycloak/web";
 
@@ -41,18 +40,6 @@ const App = () => {
                                 <HomeGuest />
                               </Route>
                           )}
-                          <PrivateRoute
-                              exact
-                              roles={["user"]}
-                              path="/users"
-                              component={Welcome}
-                          />
-                          <PrivateRoute
-                              exact
-                              roles={["user"]}
-                              path="/"
-                              component={Welcome}
-                          />
                           <PrivateRoute
                               roles={["admin"]}
                               path="/secured"

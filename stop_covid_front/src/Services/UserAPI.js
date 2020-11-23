@@ -30,7 +30,7 @@ export function create(user) {
 /* This function is to get one user from the database by his ID with GET */
 
 export function getUserById(id) {
-  const url = "http://localhost:5000/users/getUserById/" + id;
+  const url = "http://localhost:8000/users/" + id;
   return fetch(url, {
     method: "GET",
     headers: {
@@ -38,8 +38,8 @@ export function getUserById(id) {
       "Content-Type": "application/json",
     },
   })
-    .then((response) => response.json())
-    .catch((error) => console.log(error));
+      .then((response) => response.json())
+      .catch((error) => console.log(error));
 }
 
 /* This function is to get all users from the database with GET */
@@ -83,19 +83,18 @@ export function login(user) {
 
 /* This function is to update a branch with PUT */
 
-export function update(user) {
-  const url = "http://localhost:5000/users/update";
-  const data = JSON.stringify(user);
+export function updateState(id, state) {
+  const url = "http://localhost:8000/users/" + id + "?state=" + state;
   return fetch(url, {
     method: "PUT",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      "Access-Control-Origin": "*",
     },
-    body: data,
   })
-    .then((response) => response.json())
-    .catch((error) => console.log(error));
+      .then((response) => console.log(response))
+      .catch((error) => console.log(error));
 }
 
 /* This function is to delete a branch with DELETE */
@@ -139,17 +138,22 @@ export function resetPassword(user) {
 /* This function is to send location to Kafka */
 
 export function sendLocation(userId, latitude, longitude) {
-  const url = "http://localhost:8000";
-  const data = JSON.stringify(userId,latitude,longitude);
-  console.log(data)
+  const url = "http://localhost:8083/publish";
+  console.log(JSON.stringify({ userId: userId, latitude: latitude, longitude: longitude }));
   return fetch(url, {
     method: "POST",
     headers: {
       Accept: "application/json",
       "Content-Type": "application/json",
+      "Access-Control-Origin": "*",
     },
-    body: data,
+    body: JSON.stringify({ userId: userId, latitude: latitude, longitude: longitude }),
   })
-      .then((response) => response.json())
-      .catch((error) => console.log(error));
+      .then((response) => {
+        if(response.status === 200){
+          console.log("Localisation envoyée !")
+        }else{
+          throw "error"
+        }
+      });
 }

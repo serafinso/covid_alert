@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useKeycloak } from "@react-keycloak/web";
 import "./css/Home.css";
 import { getUserById, updateState, sendLocation } from "../Services/UserAPI";
+import { getDistanceBetweenPoints } from "../Services/LocationService";
 
 const Home = () => {
     const { keycloak } = useKeycloak();
     const [userState, setUserState] = useState("OK");
+    const [currentPosition, setCurrentPosition] = useState({ latitude: 0, longitude: 0 });
     const [position, setPosition] = useState({ latitude: 0, longitude: 0 });
 
     useEffect(() => {
@@ -13,21 +15,41 @@ const Home = () => {
             if (keycloak.authenticated) {
                 getLocation().then(() => {
                     if (position.latitude !== 0 && position.longitude !== 0) {
-                        sendLocation(
-                            keycloak.tokenParsed.sub,
-                            position.latitude,
-                            position.longitude
-                        ).then(() => {
-                            console.log(
-                                "Position sent : " +
-                                "{longitude : " +
-                                position.longitude +
-                                " , " +
-                                "latitude : " +
-                                position.latitude +
-                                " }"
-                            );
-                        });
+                        console.log(getDistanceBetweenPoints(position.latitude, position.longitude, currentPosition.latitude, currentPosition.longitude));
+                        if (getDistanceBetweenPoints(position.latitude, position.longitude, currentPosition.latitude, currentPosition.longitude) > 10) {
+                            sendLocation(
+                                keycloak.tokenParsed.sub,
+                                position.latitude,
+                                position.longitude
+                            ).then(() => {
+                                console.log({
+                                    latitude: position.latitude,
+                                    longitude: position.longitude,
+                                })
+                                setCurrentPosition({
+                                    latitude: position.latitude,
+                                    longitude: position.longitude,
+                                })
+                                console.log(
+                                    "Position sent : " +
+                                    "{longitude : " +
+                                    currentPosition.longitude +
+                                    " , " +
+                                    "latitude : " +
+                                    currentPosition.latitude +
+                                    " }"
+                                );
+                                console.log(
+                                    "Position sent : " +
+                                    "{longitude : " +
+                                    position.longitude +
+                                    " , " +
+                                    "latitude : " +
+                                    position.latitude +
+                                    " }"
+                                );
+                            });
+                        }
                     }
                 });
             }
@@ -51,6 +73,7 @@ const Home = () => {
 
     useEffect(() => {
         getUserById(keycloak.tokenParsed.sub).then((data) => {
+            console.log(data.state);
             setUserState(data.state);
         });
     }, [keycloak]);

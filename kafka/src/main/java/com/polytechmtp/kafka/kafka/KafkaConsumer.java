@@ -18,7 +18,7 @@ public class KafkaConsumer  {
     public void getMessage(String message) throws IOException {
 
         System.out.println(message);
-        try {
+        /*try {
             FileWriter myWriter = new FileWriter("position.txt", true);
             BufferedWriter writer = new BufferedWriter(myWriter);
 
@@ -28,7 +28,7 @@ public class KafkaConsumer  {
             writer.close();
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 
 

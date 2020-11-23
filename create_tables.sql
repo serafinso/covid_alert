@@ -11,7 +11,7 @@ CREATE TABLE user_locations
     location_id integer NOT NULL REFERENCES locations (location_id)
 );
 
-ALTER TABLE IF EXISTS user_entity ADD userState varchar(36) NOT NULL DEFAULT 'OK';
+ALTER TABLE IF EXISTS user_entity ADD state varchar(36) NOT NULL DEFAULT 'OK';
 
 
 INSERT INTO locations(latitude,longitude,location_date) VALUES(43.63746472422702,3.8409670228559136,now());

@@ -37,6 +37,10 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"User with ID "+id+" not found");
         }
         userRepository.updateState(state, id);
+
+        if (state.equals("Positive")) {
+
+        }
     }
 
 }

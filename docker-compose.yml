@@ -31,6 +31,7 @@ services:
     volumes:
       - ./config/keycloak/realm_import:/opt/jboss/keycloak/realm_import
       - ./config/keycloak/themes/my-theme/:/opt/jboss/keycloak/themes/my-theme/
+      - ./create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
 
   frontend:
     build:
@@ -42,14 +43,6 @@ services:
     ports:
       - "3000:3000"
 
-  locations-service:
-    build: locations/
-    image: locations
-    depends_on:
-      - db
-    ports:
-      - "8081:8081"
-
   keycloak-service:
     build: keycloak/
     image: keycloak
@@ -58,18 +51,11 @@ services:
     ports:
       - "8000:8000"
 
-  contacts-service:
-    build: contacts/
-    image: contacts
-    depends_on:
-      - db
-    ports:
-      - "8082:8082"
-
   kafka-service:
     build: kafka/
     image: kafka
     depends_on:
+      - db
       - kafka
     links:
       - kafka:kafka

@@ -1,7 +1,7 @@
 package com.polytechmtp.kafka.controllers;
 
 import com.polytechmtp.kafka.kafka.KafkaProducer;
-import com.polytechmtp.kafka.models.LocationUser;
+import com.polytechmtp.kafka.models.LocationUserFront;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,9 +19,9 @@ public class KafkaController {
     }
 
     @PostMapping("/publish")
-    public void writeMessageToTopic(@RequestBody LocationUser locationUser){
+    public void writeMessageToTopic(@RequestBody LocationUserFront locationUserFront){
 
-        String message = locationUser.getUserId() + "," + locationUser.getLatitude() + "," + locationUser.getLongitude() + "," + new Date();
+        String message = locationUserFront.getUserId() + "," + locationUserFront.getLatitude() + "," + locationUserFront.getLongitude() + "," + locationUserFront.getDate();
         System.out.println(message);
         this.producer.writeMessage(message);
 

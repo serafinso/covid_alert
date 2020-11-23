@@ -1,4 +1,4 @@
-package com.polytechmtp.locations.models;
+package com.polytechmtp.kafka.models;
 
 import javax.persistence.*;
 import java.util.Date;

@@ -1,15 +1,19 @@
 package com.polytechmtp.kafka.models;
 
-public class LocationUser {
+import java.util.Date;
+
+public class LocationUserFront {
 
     private String userId;
     private String latitude;
     private String longitude;
+    private Date date;
 
-    public LocationUser(String userId, String latitude, String longitude) {
+    public LocationUserFront(String userId, String latitude, String longitude) {
         this.userId = userId;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.date = new Date();
     }
 
     public String getUserId() {
@@ -34,5 +38,13 @@ public class LocationUser {
 
     public void setLongitude(String longitude) {
         this.longitude = longitude;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

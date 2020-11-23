@@ -1,7 +1,8 @@
-package com.polytechmtp.locations.controllers;
+package com.polytechmtp.kafka.controllers;
 
-import com.polytechmtp.locations.models.Location;
-import com.polytechmtp.locations.repositories.LocationRepository;
+import com.polytechmtp.kafka.models.Location;
+import com.polytechmtp.kafka.repositories.LocationRepository;
+import com.polytechmtp.kafka.repositories.UserLocationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,10 @@ import java.util.List;
 @RequestMapping("/locations")
 public class LocationsController {
     @Autowired
-    private LocationRepository locationRepository ;
+    private LocationRepository locationRepository;
+
+    @Autowired
+    private UserLocationRepository userLocationRepository;
 
     @GetMapping
     @RequestMapping(method = RequestMethod.GET)

@@ -1,9 +1,9 @@
 package com.polytechmtp.keycloak;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ContextConfiguration;
 
-@SpringBootTest
+@ContextConfiguration
 class CovidAlertApplicationTests {
 
 	@Test

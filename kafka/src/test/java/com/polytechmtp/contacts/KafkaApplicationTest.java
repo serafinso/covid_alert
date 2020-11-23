@@ -1,8 +1,13 @@
 package com.polytechmtp.contacts;
 
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Test;
+import org.springframework.test.context.ContextConfiguration;
 
-@SpringBootTest
+@ContextConfiguration
 public class KafkaApplicationTest {
+
+    @Test
+    void contextLoads() {
+    }
 
 }

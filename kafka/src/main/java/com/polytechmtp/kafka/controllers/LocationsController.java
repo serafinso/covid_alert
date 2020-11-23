@@ -43,7 +43,7 @@ public class LocationsController {
     }
 
     @RequestMapping(value="{id}", method = RequestMethod.PUT)
-    public Location update (@PathVariable Long id ) {
+    public Location update (@PathVariable Long id) {
         // TODO: Ajouter ici une validation si tous les champs ont ete passes
         // TODO: Sinon, retourner une erreur 400 (Bad Payload)
         Location existingUser = locationRepository.getOne(id);

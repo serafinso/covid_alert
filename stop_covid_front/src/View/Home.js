@@ -7,51 +7,48 @@ import { getDistanceBetweenPoints } from "../Services/LocationService";
 const Home = () => {
     const { keycloak } = useKeycloak();
     const [userState, setUserState] = useState("OK");
-    //const [currentPosition, setCurrentPosition] = useState({ latitude: 0, longitude: 0 });
-    const [longitude, setLongitude] = useState(0);
-    const [latitude, setLatitude] = useState(0);
+    let position = {
+        long: 0,
+        lat: 0
+    };
 
     useEffect(() => {
-        if (keycloak.authenticated) {
-            if (latitude !== 0 && longitude !== 0) {
-                sendLocation(
-                    keycloak.tokenParsed.sub,
-                    latitude,
-                    longitude
-                )
-            }
-        }
-    }, [latitude, longitude]);
 
-    function showPosition(position) {
-        console.log("beetween : " + getDistanceBetweenPoints(latitude, longitude, position.coords.latitude, position.coords.longitude))
-        console.log("comp : " + (getDistanceBetweenPoints(latitude, longitude, position.coords.latitude, position.coords.longitude) > 10))
-
-        if (getDistanceBetweenPoints(latitude, longitude, position.coords.latitude, position.coords.longitude) > 10) {
-            console.log("---->" + position.coords.longitude);
-            setLongitude(position.coords.longitude);
-            setLatitude(position.coords.latitude);
-            console.log("yolo")
-            console.log(longitude + "--->")
-        }
-        console.log(
-            "{longitude : " +
-            longitude +
-            " , " +
-            "latitude : " +
-            latitude +
-            " }"
-        );
-    }
-
-    useEffect(() => {
         setInterval(() => {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(showPosition);
-            } else {
-                alert("Location is not available in this browser !!");
+            if (keycloak.authenticated) {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(positionNav) {
+                        console.log(getDistanceBetweenPoints(position.lat, position.long, positionNav.coords.latitude, positionNav.coords.longitude));
+                        if (getDistanceBetweenPoints(position.lat, position.long, positionNav.coords.latitude, positionNav.coords.longitude) > 12) {
+                            if (positionNav.coords.latitude !== 0 && positionNav.coords.longitude !== 0) {
+                                sendLocation(
+                                    keycloak.tokenParsed.sub,
+                                    positionNav.coords.latitude,
+                                    positionNav.coords.longitude
+                                ).then(() => {
+                                    position = {
+                                        long: positionNav.coords.longitude,
+                                        lat: positionNav.coords.latitude
+                                    };
+                                    console.log(
+                                        "{longitude : " +
+                                        position.long +
+                                        " , " +
+                                        "latitude : " +
+                                        position.lat +
+                                        " }"
+                                    );
+                                });
+
+                            }
+                        }
+                    })
+                    console.log("lol")
+                } else {
+                    alert("Location is not available in this browser !!");
+                }
             }
-        }, 5000);
+        }, 30000);
     })
 
     useEffect(() => {

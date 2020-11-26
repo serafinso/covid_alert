@@ -61,6 +61,8 @@ services:
       - broker:broker
     ports :
       - "8083:8083"
+    volumes:
+      - position-logs:/usr/src/positions-logs
 
   zookeeper:
     image: confluentinc/cp-zookeeper:5.4.1
@@ -91,7 +93,7 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
     volumes:
-      - ./kafka/broker/data:/var/lib/kafka/data
+      - position-logs:/var/lib/kafka/data
 
   #gradle-continuous-builder:
     #image: gradle:6.7.0-jdk11
@@ -101,6 +103,6 @@ services:
     #working_dir: /home/gradle/project
     #command: [ "gradle","build","--continuous" ]
 
-#volumes:
-  #gradle-build:
+volumes:
+  position-logs:
 

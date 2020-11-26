@@ -19,13 +19,13 @@ public class LocationsController {
     public String[] getMessage() throws IOException {
         BufferedReader reader;
         String[] ret = new String[0];
-        File file = new File("kafka-logs/my_topic-0/00000000000000000000.log");
+        File file = new File("positions-logs/my_topic-0/00000000000000000000.log");
         System.out.println("Absolute Path: " + file.getAbsolutePath());
         System.out.println("Canonical Path: " + file.getCanonicalPath());
         System.out.println("Path: " + file.getPath());
         try {
             reader = new BufferedReader(new FileReader(
-                    "/usr/src/kafka-logs/my_topic-0/00000000000000000000.log"));
+                    "/usr/src/positions-logs/my_topic-0/00000000000000000000.log"));
             String line = reader.readLine();
             while (line != null) {
                 ret = ArrayUtils.addAll(ret,StringUtils.substringsBetween(line, "[", "]"));

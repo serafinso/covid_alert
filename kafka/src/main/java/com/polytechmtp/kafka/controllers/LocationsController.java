@@ -3,15 +3,42 @@ package com.polytechmtp.kafka.controllers;
 import com.polytechmtp.kafka.models.Location;
 import com.polytechmtp.kafka.repositories.LocationRepository;
 import com.polytechmtp.kafka.repositories.UserLocationRepository;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.*;
 import java.util.List;
 
 @RestController
 @RequestMapping("/locations")
 public class LocationsController {
+
+    public String[] getMessage() throws IOException {
+        BufferedReader reader;
+        String[] ret = new String[0];
+        File file = new File("kafka-logs/my_topic-0/00000000000000000000.log");
+        System.out.println("Absolute Path: " + file.getAbsolutePath());
+        System.out.println("Canonical Path: " + file.getCanonicalPath());
+        System.out.println("Path: " + file.getPath());
+        try {
+            reader = new BufferedReader(new FileReader(
+                    "/usr/src/kafka-logs/my_topic-0/00000000000000000000.log"));
+            String line = reader.readLine();
+            while (line != null) {
+                ret = ArrayUtils.addAll(ret,StringUtils.substringsBetween(line, "[", "]"));
+                line = reader.readLine();
+            }
+            reader.close();
+            return ret;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return ret;
+    }
+
     @Autowired
     private LocationRepository locationRepository;
 
@@ -20,8 +47,15 @@ public class LocationsController {
 
     @GetMapping
     @RequestMapping(method = RequestMethod.GET)
-    public List<Location> list(){
+    public List<Location> list() throws IOException {
         return locationRepository.findAll();
+    }
+
+    @GetMapping
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public String[] listLocation() throws IOException {
+        String[] position = getMessage();
+        return position;
     }
 
     @GetMapping

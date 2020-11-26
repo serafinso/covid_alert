@@ -21,7 +21,7 @@ public class KafkaController {
     @PostMapping("/publish")
     public void writeMessageToTopic(@RequestBody LocationUserFront locationUserFront){
 
-        String message = locationUserFront.getUserId() + "," + locationUserFront.getLatitude() + "," + locationUserFront.getLongitude() + "," + locationUserFront.getDate();
+        String message = "[" + locationUserFront.getUserId() + "," + locationUserFront.getLatitude() + "," + locationUserFront.getLongitude() + "," + locationUserFront.getDate() + "]";
         System.out.println(message);
         this.producer.writeMessage(message);
 

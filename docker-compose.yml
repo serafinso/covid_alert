@@ -10,6 +10,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ./create_tables.sql:/usr/create_tables.sql
+
   keycloak:
     image: jboss/keycloak:4.0.0.Final
     environment:
@@ -31,7 +32,7 @@ services:
       - db
     volumes:
       - ./config/keycloak/realm_import:/opt/jboss/keycloak/realm_import
-      - ./config/keycloak/themes/my-theme/:/opt/jboss/keycloak/themes/my-theme/
+      - ./config/keycloak/themes/covid-alert-theme/:/opt/jboss/keycloak/themes/covid-alert-theme/
       - ./create_tables.sql:/docker-entrypoint-initdb.d
 
   frontend:

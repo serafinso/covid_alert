@@ -14,8 +14,10 @@ import { PrivateRoute } from "./utilities/PrivateRoute";
 import { useKeycloak } from "@react-keycloak/web";
 
 const App = () => {
-  
-  
+
+  useEffect(() => {
+    document.title = 'Covid Alert';
+  })
   
   const { keycloak } = useKeycloak();
   return (

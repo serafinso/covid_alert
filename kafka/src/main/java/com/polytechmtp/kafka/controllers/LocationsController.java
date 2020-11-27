@@ -57,7 +57,7 @@ public class LocationsController {
     public void setLocationsByUserPositive(@PathVariable String id) throws IOException, ParseException {
         ArrayList<String> newContactUsers = new ArrayList<>();
         for (String location: LocationService.getMessage()) {
-            System.out.println(location);
+            System.out.println("loc : " + location);
             String[] infos = location.split(",");
             if(infos[0].equals(id)) {
                 Location loc = new Location(

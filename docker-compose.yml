@@ -9,47 +9,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
 
-  keycloak:
-    image: jboss/keycloak:4.0.0.Final
-    environment:
-      DB_VENDOR: postgres
-      DB_ADDR: db
-      DB_PORT: 5432
-      DB_DATABASE: ${POSTGRES_DB}
-      DB_USER: ${POSTGRES_USER}
-      DB_SCHEMA: public
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
-      KEYCLOAK_USER: ${KEYCLOAK_USER}
-      KEYCLOAK_PASSWORD: ${KEYCLOAK_PASSWORD}
-    ports:
-      - "8080:8080"
-    command:
-      - "-b 0.0.0.0"
-      - "-Dkeycloak.import=/opt/jboss/keycloak/realm_import/realm-export.json"
-    depends_on:
-      - db
-    volumes:
-      - ./config/keycloak/realm_import:/opt/jboss/keycloak/realm_import
-      - ./config/keycloak/themes/my-theme/:/opt/jboss/keycloak/themes/my-theme/
-      - ./create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
 
-  frontend:
-    build:
-      context: ./stop_covid_front
-      dockerfile: ./Dockerfile
-    volumes:
-      - ./stop_covid_front:/app/frontend
-      - /app/frontend/node_modules
-    ports:
-      - "3000:3000"
-
-  keycloak-service:
-    build: keycloak/
-    image: keycloak
-    depends_on:
-      - db
-    ports:
-      - "8000:8000"
 
   kafka-service:
     build: kafka/

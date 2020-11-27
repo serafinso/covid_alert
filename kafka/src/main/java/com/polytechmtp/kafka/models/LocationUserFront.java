@@ -47,4 +47,14 @@ public class LocationUserFront {
     public void setDate(Date date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "LocationUserFront{" +
+                "userId='" + userId + '\'' +
+                ", latitude='" + latitude + '\'' +
+                ", longitude='" + longitude + '\'' +
+                ", date=" + date +
+                '}';
+    }
 }

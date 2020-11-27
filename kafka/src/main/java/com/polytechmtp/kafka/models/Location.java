@@ -1,5 +1,9 @@
 package com.polytechmtp.kafka.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -14,17 +18,11 @@ public class Location {
     private long longitude;
     private Date location_date;
 
-
-    public Location(long location_id, long latitude, long longitude, Date location_date) {
-        this.location_id = location_id;
-        this.latitude = latitude;
-        this.longitude = longitude;
-        this.location_date = location_date;
-    }
-
-    public Location(){
-
-    }
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    private KeycloakUser keycloakUser;
 
     public void setLocation_id(long location_id) {
         this.location_id = location_id;
@@ -56,5 +54,13 @@ public class Location {
 
     public void setLocation_date(Date location_date) {
         this.location_date = location_date;
+    }
+
+    public KeycloakUser getKeycloakUser() {
+        return keycloakUser;
+    }
+
+    public void setKeycloakUser(KeycloakUser keycloakUser) {
+        this.keycloakUser = keycloakUser;
     }
 }

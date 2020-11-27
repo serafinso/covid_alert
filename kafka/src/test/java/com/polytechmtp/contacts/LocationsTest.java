@@ -60,14 +60,15 @@ class LocationsTests {
     }
 
 
-    @Test
+    /*@Test
     public void testGetOne() throws Exception {
         long id = 1;
         Location location = new Location(
                 (long)1,
                 (long)1,
                 (long)1,
-                new SimpleDateFormat("dd/MM/yyyy").parse("28/08/1998")
+                new SimpleDateFormat("dd/MM/yyyy").parse("28/08/1998"),
+
         );
 
         when(locationRepository.getOne(id)).thenReturn(location);
@@ -163,6 +164,6 @@ class LocationsTests {
         )
                 .andDo(print())
                 .andExpect(status().isOk());
-    }
+    }*/
 
 }

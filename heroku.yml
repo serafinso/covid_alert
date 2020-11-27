@@ -1,7 +1,0 @@
-steps:
-  # running docker-compose
-  - name: 'docker/compose:1.26.2'
-    args: ['up', '-d']
-  # running docker-compose
-  - name: 'docker/compose:1.26.2'
-    args: [ 'exec','db','psql','-f','/usr/create_tables.sql','-U','postgres']

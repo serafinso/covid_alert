@@ -80,6 +80,7 @@ public class LocationService {
         email.setTo(recipientAddesss);
         email.setSubject(subject);
         email.setText(message);
+        email.setFrom("COVID ALERT");
         mailSender.send(email);
     }
 

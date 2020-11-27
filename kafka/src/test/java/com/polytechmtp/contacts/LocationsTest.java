@@ -14,6 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -39,7 +40,7 @@ class LocationsTests {
 
 
 
-    @BeforeEach
+    /*@BeforeEach
     public void setup() {
         System.out.println("Passe dans le setup");
         MockitoAnnotations.initMocks(this);
@@ -67,8 +68,7 @@ class LocationsTests {
                 (long)1,
                 (long)1,
                 (long)1,
-                new SimpleDateFormat("dd/MM/yyyy").parse("28/08/1998"),
-
+                new Timestamp(Long.getLong("28/08/1998"))
         );
 
         when(locationRepository.getOne(id)).thenReturn(location);
@@ -97,7 +97,7 @@ class LocationsTests {
                 (long)1,
                 (long)1,
                 (long)1,
-                new SimpleDateFormat("dd/MM/yyyy").parse("28/08/1998")
+                new Timestamp(Long.getLong("28/08/1998"))
         );
 
         String locationString = "{ " +
@@ -126,8 +126,7 @@ class LocationsTests {
                 (long)1,
                 (long)1,
                 (long)1,
-                new SimpleDateFormat("dd/MM/yyyy").parse("28/08/1998")
-        );
+                new Timestamp(Long.getLong("28/08/1998"))        );
 
         when(locationRepository.findById(id)).thenReturn(java.util.Optional.of(location));
 
@@ -144,8 +143,7 @@ class LocationsTests {
                 (long)1,
                 (long)1,
                 (long)1,
-                new SimpleDateFormat("dd/MM/yyyy").parse("28/08/1998")
-        );
+                new Timestamp(Long.getLong("28/08/1998"))        );
 
         String locationString = "{ " +
                 "\"latitude\":1, " +

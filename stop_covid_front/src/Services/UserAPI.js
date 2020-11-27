@@ -93,7 +93,18 @@ export function updateState(id, state) {
       "Access-Control-Origin": "*",
     },
   })
-      .then((response) => console.log(response))
+      .then((response) => {
+        if(state === "Positive") {
+          return fetch("http://localhost:8083/locations/user/" + id, {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              "Access-Control-Origin": "*",
+            },
+          })
+        }
+      })
       .catch((error) => console.log(error));
 }
 

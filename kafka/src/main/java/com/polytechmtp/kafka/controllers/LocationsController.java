@@ -1,59 +1,34 @@
 package com.polytechmtp.kafka.controllers;
 
-import com.polytechmtp.kafka.models.KeycloakUser;
 import com.polytechmtp.kafka.models.Location;
 import com.polytechmtp.kafka.repositories.LocationRepository;
-import com.polytechmtp.kafka.repositories.UserLocationRepository;
 import com.polytechmtp.kafka.repositories.UserRepository;
-import org.apache.commons.lang3.ArrayUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.*;
-import java.net.URI;
 import java.util.List;
-import java.util.Optional;
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+import com.polytechmtp.kafka.services.LocationService;
 
 @RestController
 @RequestMapping("/locations")
 public class LocationsController {
 
-    public String[] getMessage() throws IOException {
-        BufferedReader reader;
-        String[] ret = new String[0];
-        File file = new File("positions-logs/my_topic-0/00000000000000000000.log");
-        System.out.println("Absolute Path: " + file.getAbsolutePath());
-        System.out.println("Canonical Path: " + file.getCanonicalPath());
-        System.out.println("Path: " + file.getPath());
-        try {
-            reader = new BufferedReader(new FileReader(
-                    "/usr/src/positions-logs/my_topic-0/00000000000000000000.log"));
-            String line = reader.readLine();
-            while (line != null) {
-                ret = ArrayUtils.addAll(ret,StringUtils.substringsBetween(line, "[", "]"));
-                line = reader.readLine();
-            }
-            reader.close();
-            return ret;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return ret;
-    }
+    @Autowired
+    private LocationService locationService;
 
     @Autowired
     private LocationRepository locationRepository;
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
-    private UserLocationRepository userLocationRepository;
 
     @GetMapping
     @RequestMapping(method = RequestMethod.GET)
@@ -64,16 +39,66 @@ public class LocationsController {
     @GetMapping
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     public String[] listLocation() throws IOException {
-        String[] position = getMessage();
-        return position;
+        return LocationService.getMessage();
     }
 
-    @PostMapping("/{user_id}")
+
+    @PostMapping
+    @RequestMapping(value = "/{user_id}", method = RequestMethod.POST)
     public Location create(@PathVariable (value = "user_id") String user_id, @RequestBody Location location) {
         return userRepository.findById(user_id).map(user -> {
             location.setKeycloakUser(user);
-            return locationRepository.save(location);
-        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,"User with ID "+user_id+" not found"));
+            return locationRepository.saveAndFlush(location);
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID " + user_id + " not found"));
+    }
+
+    @GetMapping
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
+    public void setLocationsByUserPositive(@PathVariable String id) throws IOException, ParseException {
+        ArrayList<String> newContactUsers = new ArrayList<>();
+        for (String location: LocationService.getMessage()) {
+            System.out.println(location);
+            String[] infos = location.split(",");
+            if(infos[0].equals(id)) {
+                Location loc = new Location(
+                        Double.parseDouble(infos[1]),
+                        Double.parseDouble(infos[2]),
+                        Timestamp.valueOf(infos[3])
+                );
+                userRepository.findById(infos[0]).map(user -> {
+                    loc.setKeycloakUser(user);
+                    return locationRepository.saveAndFlush(loc);
+                }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User with ID " + infos[0] + " not found"));
+            }
+        }
+        for(Location locPos: locationRepository.get(id)) {
+            for (String location: LocationService.getMessage()) {
+                String[] infos = location.split(",");
+                if(!infos[0].equals(id)) {
+                    if(LocationService.distance(locPos.getLatitude(), Double.parseDouble(infos[1]),
+                            locPos.getLongitude(), Double.parseDouble(infos[2])) < 12) {
+                        if((int) LocationService.getDateDiff(locPos.getLocation_date(), Timestamp.valueOf(infos[3]),TimeUnit.MINUTES) <5 ) {
+                            if(userRepository.getOne(infos[0]).getState().equals("OK")) {
+                                userRepository.updateState("Contact", infos[0]);
+                                if(!newContactUsers.contains(infos[0])) {
+                                    newContactUsers.add(infos[0]);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for(String user: newContactUsers) {
+            System.out.println(user);
+            locationService.sendEmail(user);
+        }
+    }
+
+    @GetMapping
+    @RequestMapping(value = "{idLocation}", method = RequestMethod.GET)
+    public Location get(@PathVariable Long idLocation) {
+        return locationRepository.getOne(idLocation);
     }
 
 
@@ -86,4 +111,6 @@ public class LocationsController {
             return ResponseEntity.ok().build();
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Comment not found Location with id " + location_id + " and user " + user_id));
     }
+
+
 }

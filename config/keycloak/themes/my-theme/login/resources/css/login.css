@@ -1,5 +1,5 @@
 .login-pf body {
-    background: url("../img/keycloak-bg.png") no-repeat center center fixed;
+    background: #1c8ef9 no-repeat center center fixed;
     background-size: cover;
     height: 100%;
 }
@@ -78,7 +78,6 @@ a#kc-current-locale-link::after {
 }
 
 #kc-logo-wrapper {
-    background-image: url(../img/keycloak-logo-2.png);
     background-repeat: no-repeat;
     height: 63px;
     width: 300px;
@@ -492,7 +491,7 @@ a.zocial  {
 }
 
 .login-pf-page .login-pf-social-link {
-  margin-bottom: 25px;
+  margin-bottom: 50px;
 }
 .login-pf-page .login-pf-social-link a {
   padding: 2px 0;
@@ -533,12 +532,6 @@ a.zocial  {
 form#kc-select-back-form div.login-pf-social-section {
     padding-left: 0px;
     border-left: 0px;
-}
-
-
-.login-pf-page {
-    background: #1c8ef9 !important;
-    height: 100%;
 }
 
 body {

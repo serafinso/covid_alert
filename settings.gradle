@@ -9,3 +9,4 @@
 
 rootProject.name = 'covid_alert'
 include('keycloak', 'kafka')
+

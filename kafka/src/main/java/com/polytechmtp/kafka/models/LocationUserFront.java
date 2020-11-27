@@ -1,5 +1,8 @@
 package com.polytechmtp.kafka.models;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class LocationUserFront {
@@ -7,13 +10,13 @@ public class LocationUserFront {
     private String userId;
     private String latitude;
     private String longitude;
-    private Date date;
+    private Timestamp date;
 
     public LocationUserFront(String userId, String latitude, String longitude) {
         this.userId = userId;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.date = new Date();
+        this.date = new Timestamp(System.currentTimeMillis());
     }
 
     public String getUserId() {
@@ -40,11 +43,11 @@ public class LocationUserFront {
         this.longitude = longitude;
     }
 
-    public Date getDate() {
+    public Timestamp getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Timestamp date) {
         this.date = date;
     }
 

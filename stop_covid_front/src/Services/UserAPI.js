@@ -150,7 +150,6 @@ export function resetPassword(user) {
 
 export function sendLocation(userId, latitude, longitude) {
   const url = "http://localhost:8083/publish";
-  console.log(JSON.stringify({ userId: userId, latitude: latitude, longitude: longitude }));
   return fetch(url, {
     method: "POST",
     headers: {

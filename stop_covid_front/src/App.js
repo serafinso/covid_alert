@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { Router, Switch, Route } from "react-router-dom";

@@ -1,7 +1,3 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
-import { getNumbers } from "../Services/CovidAPI";
-
 const HomeGuest = (props) => {
   return (
     <div>
@@ -15,11 +11,4 @@ const HomeGuest = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
-  console.log(state);
-  return {
-    connectedUser: state.users.connectedUser,
-  };
-};
-
-export default connect(mapStateToProps)(HomeGuest);
+export default HomeGuest;

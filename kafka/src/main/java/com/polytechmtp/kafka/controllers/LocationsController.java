@@ -78,6 +78,8 @@ public class LocationsController {
                     if(LocationService.distance(locPos.getLatitude(), Double.parseDouble(infos[1]),
                             locPos.getLongitude(), Double.parseDouble(infos[2])) < 12) {
                         if((int) LocationService.getDateDiff(locPos.getLocation_date(), Timestamp.valueOf(infos[3]),TimeUnit.MINUTES) <5 ) {
+                            System.out.println(infos[0]);
+                            System.out.println(userRepository.findById(infos[0]).isPresent());
                             if (userRepository.findById(infos[0]).isPresent()) {
                                 if(userRepository.getOne(infos[0]).getState().equals("OK")) {
                                     userRepository.updateState("Contact", infos[0]);

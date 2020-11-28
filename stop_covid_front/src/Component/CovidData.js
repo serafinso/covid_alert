@@ -1,4 +1,4 @@
-import React, { Component, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "./css/CovidData.css";
 import { getNumbers } from "../Services/CovidAPI";
 import { Spinner } from "react-bootstrap";
@@ -19,7 +19,6 @@ const CovidData = () => {
     getNumbers()
       .then((data) => {
         setDataCovid(data.FranceGlobalLiveData[0]);
-        console.log(data);
         setLoading(false);
       })
       .catch((error) => {

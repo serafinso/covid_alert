@@ -30,36 +30,26 @@ const Home = () => {
                                         long: positionNav.coords.longitude,
                                         lat: positionNav.coords.latitude
                                     };
-                                    console.log(
-                                        "{longitude : " +
-                                        position.long +
-                                        " , " +
-                                        "latitude : " +
-                                        position.lat +
-                                        " }"
-                                    );
                                 });
 
                             }
                         }
                     })
-                    console.log("lol")
+                    console.log("Distance entre 2 positions : ")
                 } else {
                     alert("Location is not available in this browser !!");
                 }
             }
-        }, 30000);
+        }, 15000);
     })
 
     useEffect(() => {
         getUserById(keycloak.tokenParsed.sub).then((data) => {
-            console.log(data.state);
             setUserState(data.state);
         });
     }, [keycloak]);
 
     useEffect(() => {
-        console.log(userState);
         updateState(keycloak.tokenParsed.sub, userState);
     }, [userState]);
 

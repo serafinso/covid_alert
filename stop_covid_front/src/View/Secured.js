@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
 import { useKeycloak } from "@react-keycloak/web";
-import { connect } from "react-redux";
 
 const Secured = () => {
   const { keycloak } = useKeycloak();
@@ -23,10 +21,4 @@ const Secured = () => {
   );
 };
 
-const mapStateToProps = (state) => {
-  console.log(state);
-  return {
-    connectedUser: state.users.connectedUser,
-  };
-};
-export default connect(mapStateToProps)(Secured);
+export default Secured;
